@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>軍隊計算ツール</title>
+  <style>
+    body {
+      font-family: 'Arial', sans-serif;
+      background-color: #f9e4c0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    form {
+      background-color: #ffffff;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 0 30px #ff733b85;
+    }
+
+    form p {
+      margin: 10px 0;
+    }
+
+    input {
+      width: calc(100% - 12px);
+      padding: 6px;
+      border: 1px solid #d35e2f;
+      border-radius: 4px;
+    }
+
+    button {
+      background-color: #1a9166;
+      color: #fff;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #14704e;
+    }
+
+    output {
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    p.creator {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #7b71ec;
+    }
+
+    input[type="checkbox"] {
+      margin-right: 5px;
+    }
+
+    .section {
+      padding: 5px;
+      border-radius: 12px;
+      border: 2px solid; /* Add border style */
+    }
+
+    .sectionA {
+      border-color: #ff00006b; /* Set border color for sectionA */
+    }
+
+    .sectionB {
+      border-color: #000dff6b; /* Set border color for sectionB */
+    }
+
+    .sectionC {
+      border-color: #09ff006b; /* Set border color for sectionC */
+    }
+  </style>
+</head>
+
+<body>
+  <form>
+      <p>　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
+    </div>
+
+    <div class="section sectionA">
+      <p>自分の軍隊ステータス</p>
+      <p>自分の攻撃力(K) <input type="number" name="a" id="a"></p>
+      <p>自分の追撃力(K) <input type="number" name="b" id="b"></p>
+      <p>自分の元素(合計) <input type="number" name="d" id="d"></p>
+      <p>敵への与ダメ(％) <input type="number" name="e" id="e"></p>
+    </div>
+<p>
+    <div class="section sectionB">
+      <p>敵軍隊ステータス</p>
+      <p>敵の防御力(K) <input type="number" name="c" id="c"></p>
+    </div>
+<p>
+    <div class="section sectionC">
+      <p>源獣尖兵特性</p>
+      <p>3ターン割合(％) <input type="number" name="f" id="f"></p>
+      <p>追加ダメ(K) <input type="number" name="g" id="g"></p>
+    </div>
+
+      <p>
+        <button type="button" onclick="calculateResult()">計算する</button>
+        <button type="reset" onclick="resetForm()">リセット</button>
+      </p>
+    </div>
+      <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
+    </div>
+  </form>
+
+  <script>
+    function calculateResult() {
+      var resultOutput = document.querySelector('output[name="result"]');
+      var a = Number(document.getElementById('a').value);
+      var b = Number(document.getElementById('b').value);
+      var c = Number(document.getElementById('c').value);
+      var d = Number(document.getElementById('d').value);
+      var e = Number(document.getElementById('e').value);
+      var f = Number(document.getElementById('f').value);
+      var g = Number(document.getElementById('g').value);
+      var weaknessCheckbox = document.getElementById('weaknessCheckbox').checked;
+
+      var result;
+
+      if (weaknessCheckbox) {
+        var result = (((((a - c) * 1000) + (d * (a / 70))) * (1 + e / 100)) * 20) / 1000;
+      } else {
+        var result = (((((((a - c) * 1000) + (d * (a / 70))) * (1 + e / 100)) * 20) +
+          ((((b - c) * 1000) + (d * (b / 70))) * (1 + e / 100)) * 20) +
+          ((a * 1000 * (f / 100) + g * 1000) * 6)) / 1000;
+      }
+
+      resultOutput.textContent = result.toFixed(2) + 'K';
+    }
+
+    function resetForm() {
+      var resultOutput = document.querySelector('output[name="result"]');
+      resultOutput.textContent = '0';
+    }
+  </script>
+</body>
+
+</html>
