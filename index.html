@@ -34,18 +34,32 @@
       border-radius: 4px;
     }
 
-    button {
+    .calculate-button {
       background-color: #1a9166;
       color: #fff;
-      padding: 5px 47px;
+      padding: 5px 77px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
       font-size: 16px;
     }
 
-    button:hover {
+    .reset-button {
+      background-color: #f67365;
+      color: #fff;
+      padding: 5px 17px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .calculate-button:hover {
       background-color: #14704e;
+    }
+
+    .reset-button:hover {
+      background-color: #8a322796;
     }
 
     output {
@@ -86,8 +100,7 @@
 
 <body>
   <form>
-      <p>　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
-    </div>
+    <p>　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
 
     <div class="section sectionA">
       <p>自分の軍隊ステータス</p>
@@ -101,20 +114,19 @@
       <p>敵軍隊ステータス</p>
       <p>敵の防御力(K) <input type="number" name="c" id="c"></p>
     </div>
-<p>
+    <p>
     <div class="section sectionC">
       <p>源獣尖兵特性</p>
       <p>3ターン割合(％) <input type="number" name="f" id="f"></p>
       <p>追加ダメ(K) <input type="number" name="g" id="g"></p>
     </div>
 
-      <p>
-        <button type="button" onclick="calculateResult()">計算する</button>
-        <button type="reset" onclick="resetForm()">リセット</button>
-      </p>
-    </div>
-      <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
-    </div>
+    <p>
+      <button class="calculate-button" type="button" onclick="calculateResult()">計算する</button>
+      <button class="reset-button" type="reset" onclick="resetForm()">リセット</button>
+    </p>
+
+    <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
   </form>
 
   <script>
