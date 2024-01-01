@@ -21,28 +21,23 @@
       border-radius: 8px;
       padding: 20px;
       box-shadow: 0 0 30px #ff733b85;
-      max-width: 400px; 
-      width: 90%; 
     }
 
     form p {
-      margin: 10px 0;
+      margin: 5px 0;
     }
 
     input {
-      width: 100%; 
-      box-sizing: border-box; 
+      width: calc(100% - 12px);
       padding: 6px;
       border: 1px solid #d35e2f;
       border-radius: 4px;
     }
 
     button {
-      width: 100%; 
-      box-sizing: border-box; 
       background-color: #1a9166;
       color: #fff;
-      padding: 8px 12px;
+      padding: 5px 47px;
       border: none;
       border-radius: 4px;
       cursor: pointer;
@@ -72,32 +67,27 @@
     .section {
       padding: 5px;
       border-radius: 12px;
-      border: 2px solid;
+      border: 2px solid; /* Add border style */
     }
 
     .sectionA {
-      border-color: #ff00006b;
+      border-color: #ff00006b; /* Set border color for sectionA */
     }
 
     .sectionB {
-      border-color: #000dff6b;
+      border-color: #000dff6b; /* Set border color for sectionB */
     }
 
     .sectionC {
-      border-color: #09ff006b;
-    }
-
-    .button-container {
-      display: flex;
-      gap: 10px;
-      justify-content: space-between;
+      border-color: #09ff006b; /* Set border color for sectionC */
     }
   </style>
 </head>
 
 <body>
   <form>
-    <p>　　　　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
+      <p>　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
+    </div>
 
     <div class="section sectionA">
       <p>自分の軍隊ステータス</p>
@@ -117,13 +107,14 @@
       <p>3ターン割合(％) <input type="number" name="f" id="f"></p>
       <p>追加ダメ(K) <input type="number" name="g" id="g"></p>
     </div>
-<p>
-    <div class="button-container">
-      <button type="button" onclick="calculateResult()">計算する</button>
-      <button type="reset" onclick="resetForm()">リセット</button>
-    </div>
 
-    <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
+      <p>
+        <button type="button" onclick="calculateResult()">計算する</button>
+        <button type="reset" onclick="resetForm()">リセット</button>
+      </p>
+    </div>
+      <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
+    </div>
   </form>
 
   <script>
