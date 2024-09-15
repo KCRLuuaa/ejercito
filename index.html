@@ -104,15 +104,28 @@
 
     <div class="section sectionA">
       <p>自分の軍隊ステータス</p>
-      <p>自分の攻撃力(K) <input type="number" name="a" id="a"></p>
-      <p>自分の追撃力(K) <input type="number" name="b" id="b"></p>
+      <p>自分の攻撃力(M) <input type="number" name="a" id="a"></p>
+      <p>自分の追撃力(M) <input type="number" name="b" id="b"></p>
       <p>自分の元素(合計) <input type="number" name="d" id="d"></p>
       <p>敵への与ダメ(％) <input type="number" name="e" id="e"></p>
     </div>
 <p>
     <div class="section sectionB">
       <p>敵軍隊ステータス</p>
-      <p>敵の防御力(K) <input type="number" name="c" id="c"></p>
+      <p>
+        ボスを選択:
+        <select id="bossSelect" onchange="updateDefenseValue(this.value)">
+          <option value="" disabled selected>選択してください</option>
+          <option value="0.76">ボス18 (0.76M)</option>
+          <option value="1.15">ボス19 (1.15M)</option>
+          <option value="1.37">ボス20 (1.37M)</option>
+          <option value="1.72">ボス21 (1.72M)</option>
+          <option value="2.11">ボス22 (2.11M)</option>
+          <option value="2.54">ボス23 (2.54M)</option>
+          <option value="3.00">ボス24 (3.00M)</option>
+        </select>
+      </p>
+      <p>敵の防御力(M) <input type="number" name="c" id="c"></p>
     </div>
     <p>
     <div class="section sectionC">
@@ -144,19 +157,23 @@
       var result;
 
       if (weaknessCheckbox) {
-        var result = (((((a - c) * 1000) + (d * (a / 70))) * (1 + e / 100)) * 20) / 1000;
+        var result = (((((a - c) * 1000000) + (d * (a / 0.170))) * (1 + e / 100)) * 20) / 100000000;
       } else {
-        var result = (((((((a - c) * 1000) + (d * (a / 70))) * (1 + e / 100)) * 20) +
-          ((((b - c) * 1000) + (d * (b / 70))) * (1 + e / 100)) * 20) +
-          ((a * 1000 * (f / 100) + g * 1000) * 6)) / 1000;
+        var result = (((((((a - c) * 1000000) + (d * (a / 0.170))) * (1 + e / 100)) * 20) +
+          ((((b - c) * 1000000) + (d * (b / 0.170))) * (1 + e / 100)) * 20) +
+          ((a * 1000000 * (f / 100) + g * 1000) * 6)) / 1000000;
       }
 
-      resultOutput.textContent = result.toFixed(2) + 'K';
+      resultOutput.textContent = result.toFixed(2) + 'M';
     }
-
+    function updateDefenseValue(value) {
+    document.getElementById('c').value = value;
+    }
     function resetForm() {
       var resultOutput = document.querySelector('output[name="result"]');
       resultOutput.textContent = '0';
+      document.getElementById('bossSelect').selectedIndex = 0;
+      document.getElementById('c').value = '';
     }
   </script>
 </body>
