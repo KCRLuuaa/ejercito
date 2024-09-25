@@ -1,181 +1,264 @@
 <!DOCTYPE html>
-<html lang="ja">
-
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>軍隊計算ツール</title>
-  <style>
-    body {
-      font-family: 'Arial', sans-serif;
-      background-color: #f9e4c0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-    }
-
-    form {
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 0 30px #ff733b85;
-    }
-
-    form p {
-      margin: 3px 0;
-    }
-
-    input {
-      width: calc(100% - 12px);
-      padding: 6px;
-      border: 1px solid #d35e2f;
-      border-radius: 4px;
-    }
-
-    .calculate-button {
-      background-color: #1a9166;
-      color: #fff;
-      padding: 5px 77px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .reset-button {
-      background-color: #f67365;
-      color: #fff;
-      padding: 5px 17px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    .calculate-button:hover {
-      background-color: #14704e;
-    }
-
-    .reset-button:hover {
-      background-color: #8a322796;
-    }
-
-    output {
-      font-weight: bold;
-      font-size: 18px;
-    }
-
-    p.creator {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 14px;
-      color: #7b71ec;
-    }
-
-    input[type="checkbox"] {
-      margin-right: 5px;
-    }
-
-    .section {
-      padding: 5px;
-      border-radius: 12px;
-      border: 2px solid; /* Add border style */
-    }
-
-    .sectionA {
-      border-color: #ff00006b; /* Set border color for sectionA */
-    }
-
-    .sectionB {
-      border-color: #000dff6b; /* Set border color for sectionB */
-    }
-
-    .sectionC {
-      border-color: #09ff006b; /* Set border color for sectionC */
-    }
-  </style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>軍隊計算ツール</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f9e4c0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background-color: #ffffff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 0 30px #ff733b85;
+        }
+        label {
+            display: block;
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="text"] {
+            width: calc(100% - 20px);
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        table {
+            width: 100%;
+            margin-top: 20px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 12px;
+            text-align: center;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f7f7f7;
+        }
+        .f7 {
+            background-color: #fff;
+        }
+        .result {
+            text-align: center;
+            font-size: 20px;
+            font-weight: bold;
+            margin-top: 20px;
+            color: #2c3e50;
+            margin-left: 10px;
+        }
+        .hidden{
+            display:none;
+        }
+        .mystate{
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid;
+            border-color: #ff00006b;
+            margin-bottom: 10px;
+        }
+        .enemystate{
+            padding: 10px;
+            border-radius: 12px;
+            border: 2px solid;
+            border-color: #09ff006b;
+        }
+        #damage{
+            z-index: 1;
+            left: 0;
+            top: 0;
+            overflow: auto;
+            background-color: white;
+            border: 1px solid #888;
+            border-radius: 10px;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            height: 59vh;
+        }
+        #close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            margin-right: 2%;
+        }
+        #close:hover,#close:focus{
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+        .reset-button {
+            background-color: #f67365;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        .reset-button:hover {
+            background-color: #b22222;
+        }
+        .calcbutton{
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+            background-color: #1a9166;
+            width:63%;
+        }
+        .calcbutton:hover{
+            background-color: #14704e;
+        }
+    </style>
 </head>
-
 <body>
-  <form>
-    <p>　　　弱点取れてない場合はチェック<input type="checkbox" id="weaknessCheckbox"></p>
 
-    <div class="section sectionA">
-      <p>自分の軍隊ステータス</p>
-      <p>自分の攻撃力(M) <input type="number" name="a" id="a"></p>
-      <p>自分の追撃力(M) <input type="number" name="b" id="b"></p>
-      <p>自分の元素(合計) <input type="number" name="d" id="d"></p>
-      <p>敵への与ダメ(％) <input type="number" name="e" id="e"></p>
+<div class="container">
+    <div class="mystate">
+        <h3>自分の軍隊ステータス</h3>
+        <label for="ak">自分の攻撃力(M)</label>
+        <input type="text" id="ak" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+
+        <label for="ck">自分の追撃力(M)</label>
+        <input type="text" id="ck" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
+
+        <label for="elesum">自分の元素(合計)</label>
+        <input type="text" id="elesum" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
+        <label for="bufper">敵への与ダメ(％)</label>
+        <input type="text" id="bufper" oninput="this.value = this.value.replace(/[^0-9.]/g, '');">
     </div>
-<p>
-    <div class="section sectionB">
-      <p>敵軍隊ステータス</p>
-      <p>
-        ボスを選択:
-        <select id="bossSelect" onchange="updateDefenseValue(this.value)">
-          <option value="" disabled selected>選択してください</option>
-          <option value="0.76">ボス18 (0.76M)</option>
-          <option value="1.15">ボス19 (1.15M)</option>
-          <option value="1.37">ボス20 (1.37M)</option>
-          <option value="1.72">ボス21 (1.72M)</option>
-          <option value="2.11">ボス22 (2.11M)</option>
-          <option value="2.54">ボス23 (2.54M)</option>
-          <option value="3.00">ボス24 (3.00M)</option>
-        </select>
-      </p>
-      <p>敵の防御力(M) <input type="number" name="c" id="c"></p>
-    </div>
-    <p>
-    <div class="section sectionC">
-      <p>源獣尖兵特性</p>
-      <p>3ターン割合(％) <input type="number" name="f" id="f"></p>
-      <p>追加ダメ(K) <input type="number" name="g" id="g"></p>
+    <div class="enemystate">
+        <h3>源獣尖兵特性</h3>
+        <label for="genju_per">3ターン割合(%)</label>
+        <input type="text" id="genju_per" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
+
+        <label for="genju_atk_k">追加ダメ(k)</label>
+        <input type="text" id="genju_atk_k" oninput="this.value = this.value.replace(/[^0-9]/g, '');">
     </div>
 
-    <p>
-      <button class="calculate-button" type="button" onclick="calculateResult()">計算する</button>
-      <button class="reset-button" type="reset" onclick="resetForm()">リセット</button>
-    </p>
+    <input class="calcbutton" type="submit" value="計算する" onclick="calc()">
+    <button class="reset-button" type="reset" onclick="resetForm()">リセット</button><br>
+    <label for="name">作成者:くらちと友達</label>
+    <div class="hidden" id="damage">
+        <span id="close">&times;</span>
+        <div class="result">ダメージ<span id="result"></span></div>
 
-    <p>ダメージ <output name="result" for="a b c d f g"> 0</output>　　　　作成者 : くらち</p>
-  </form>
+            <table>
+                <thead>
+                    <tr>
+                        <th class="f7">ボス</th>
+                        <th class="f7">追撃無し</th>
+                        <th class="f7">追撃有り</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <script>
+                        const bossIds = Array.from({ length: 7 }, (_, i) => i + 18);
+                        bossIds.forEach(bossId => {
+                            document.write(`<tr>
+                                <td class="f7">${bossId}</td>
+                                <td id="a${bossId}a20"></td>
+                                <td id="a${bossId}sum"></td>
+                            </tr>`);
+                        });
+                    </script>
+            </tbody>
+        </table>
+    </div>
+</div>
 
-  <script>
-    function calculateResult() {
-      var resultOutput = document.querySelector('output[name="result"]');
-      var a = Number(document.getElementById('a').value);
-      var b = Number(document.getElementById('b').value);
-      var c = Number(document.getElementById('c').value);
-      var d = Number(document.getElementById('d').value);
-      var e = Number(document.getElementById('e').value);
-      var f = Number(document.getElementById('f').value);
-      var g = Number(document.getElementById('g').value);
-      var weaknessCheckbox = document.getElementById('weaknessCheckbox').checked;
-
-      var result;
-
-      if (weaknessCheckbox) {
-        var result = (((((a - c) * 1000000) + (d * (a / 0.170))) * (1 + e / 100)) * 20) / 100000000;
-      } else {
-        var result = (((((((a - c) * 1000000) + (d * (a / 0.170))) * (1 + e / 100)) * 20) +
-          ((((b - c) * 1000000) + (d * (b / 0.170))) * (1 + e / 100)) * 20) +
-          ((a * 1000000 * (f / 100) + g * 1000) * 6)) / 1000000;
-      }
-
-      resultOutput.textContent = result.toFixed(2) + 'M';
+<script>
+    function ctest() {
+        const ids = ["ak", "ck", "elesum", "bufper", "genju_per", "genju_atk_k"];
+        ids.forEach(id => document.getElementById(id).value = getCookie(id) || '');
     }
-    function updateDefenseValue(value) {
-    document.getElementById('c').value = value;
+
+    function calc() {
+        const atk = Number(document.getElementById("ak").value) * 1000000;
+        const ck = Number(document.getElementById("ck").value) * 1000000;
+        const elesum = Number(document.getElementById("elesum").value);
+        const bufper = 1 + Number(document.getElementById("bufper").value) / 100;
+        const genjuPer = Number(document.getElementById("genju_per").value) / 100;
+        const genjuAtk = Number(document.getElementById("genju_atk_k").value) * 1000;
+
+        const kinga = {
+            18: 764156,
+            19: 1052454, 20: 1375482, 21: 1727000, 22: 2115000,
+            23: 2540000, 24: 3003000
+        };
+
+        for (let key in kinga) {
+            const bd = kinga[key];
+            const ra = Math.max(atk / 20, atk - bd) * bufper;
+            const rc = Math.max(ck / 20, ck - bd) * bufper;
+            const rga = getBaseLog(5, atk * bufper) * elesum * bufper;
+            const rgc = getBaseLog(5, ck * bufper) * elesum * bufper;
+
+            const nonAdditional = ((ra + rga) * 20) / 1000000;
+            const additional = ((ra + rga) * 20 + (rc + rgc) * 20) / 1000000;
+            const genjuAdditional = ((atk * genjuPer + genjuAtk) * 6) / 1000000;
+            
+            totalA = nonAdditional.toFixed(2);
+            totalB = (additional+genjuAdditional).toFixed(2);
+
+            const nonAdditionalText = (isNaN(nonAdditional) || nonAdditional === -Infinity) ? "えらー" : `${totalA}M`;
+            const additionalText = (isNaN(additional) || additional === -Infinity) ? "えらー" : `${totalB}M`;
+
+            document.getElementById(`a${key}a20`).textContent = nonAdditionalText;
+            document.getElementById(`a${key}sum`).textContent = additionalText;
+        }
+        setCookie();
+        document.getElementById("damage").classList.remove("hidden");
     }
+
+    function getCookie(name) {
+        const matches = document.cookie.match(new RegExp(
+            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, "\\$1") + "=([^;]*)"
+        ));
+        return matches ? decodeURIComponent(matches[1]) : '';
+    }
+
+    function setCookie() {
+        ["ak", "ck", "elesum", "bufper", "genju_per", "genju_atk_k"].forEach(id => {
+            document.cookie = `${id}=${document.getElementById(id).value}; path=/`;
+        });
+    }
+
+    function getBaseLog(x, y) {
+        return Math.log(y) / Math.log(x);
+    }
+
+    
+    document.getElementById("close").onclick = function(){
+        document.getElementById("damage").classList.add("hidden");
+    }
+
     function resetForm() {
-      var resultOutput = document.querySelector('output[name="result"]');
-      resultOutput.textContent = '0';
-      document.getElementById('bossSelect').selectedIndex = 0;
-      document.getElementById('c').value = '';
+        document.getElementById("ak").value = "";
+        document.getElementById("ck").value = "";
+        document.getElementById("elesum").value = "";
+        document.getElementById("bufper").value = "";
+        document.getElementById("genju_per").value = "";
+        document.getElementById("genju_atk_k").value = "";
+        document.getElementById("damage").classList.add("hidden");
     }
-  </script>
+</script>
 </body>
-
 </html>
